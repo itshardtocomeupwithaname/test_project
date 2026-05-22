@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import dateFormatter from "../../helpers/dateFormatter";
+import dateFormatter, { lastEditedFormatter } from "../../helpers/dateFormatter";
 import Avatar from "../Avatar";
 
-function ArticleMeta({ author, children, createdAt }) {
+function ArticleMeta({ author, children, createdAt, updatedAt }) {
   const { bio, followersCount, following, image, username } = author || {};
 
   return (
@@ -22,6 +22,7 @@ function ArticleMeta({ author, children, createdAt }) {
           {username}
         </Link>
         <span className="date">{dateFormatter(createdAt)}</span>
+        {updatedAt && <span className="date">{lastEditedFormatter(updatedAt)}</span>}
       </div>
       {children}
     </div>
