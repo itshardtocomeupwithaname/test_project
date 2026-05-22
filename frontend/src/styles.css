@@ -1057,6 +1057,22 @@ fieldset[disabled] a.btn {
   background: none;
 }
 
+.tag-default.popular-tag-highlight {
+  border-color: var(--brand);
+  color: var(--brand-dark);
+  background-color: rgba(51, 170, 68, 0.12);
+  font-weight: 600;
+}
+
+.tag-default.popular-tag-highlight::before {
+  content: "★";
+  margin-right: 0.25rem;
+}
+
+.tag-default.popular-tag-highlight:hover {
+  background-color: rgba(51, 170, 68, 0.2);
+}
+
 ul.tag-list {
   display: inline-block;
 }

@@ -1,5 +1,7 @@
 import { useFeedContext } from "../../context/FeedContext";
 
+const HIGHLIGHTED_TAG_COUNT = 5;
+
 function TagButton({ tagsList }) {
   const { changeTab } = useFeedContext();
 
@@ -7,8 +9,14 @@ function TagButton({ tagsList }) {
     changeTab(e, "tag");
   };
 
-  return tagsList.slice(0, 50).map((name) => (
-    <button className="tag-pill tag-default" key={name} onClick={handleClick}>
+  return tagsList.slice(0, 50).map((name, index) => (
+    <button
+      className={`tag-pill tag-default${
+        index < HIGHLIGHTED_TAG_COUNT ? " popular-tag-highlight" : ""
+      }`}
+      key={name}
+      onClick={handleClick}
+    >
       {name}
     </button>
   ));
