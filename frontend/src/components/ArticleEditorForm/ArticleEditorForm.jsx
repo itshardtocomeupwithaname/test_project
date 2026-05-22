@@ -51,7 +51,15 @@ function ArticleEditorForm() {
   const formSubmit = (e) => {
     e.preventDefault();
 
-    setArticle({ headers, slug, body, description, tagList, title })
+    setArticle({ headers, slug, body, description, status: "published", tagList, title })
+      .then((slug) => navigate(`/article/${slug}`))
+      .catch(setErrorMessage);
+  };
+
+  const saveDraft = (e) => {
+    e.preventDefault();
+
+    setArticle({ headers, slug, body, description, status: "draft", tagList, title })
       .then((slug) => navigate(`/article/${slug}`))
       .catch(setErrorMessage);
   };
@@ -101,6 +109,15 @@ function ArticleEditorForm() {
 
         <button className="btn btn-lg pull-xs-right btn-primary" type="submit">
           {slug ? "Update Article" : "Publish Article"}
+        </button>
+        <button
+          className="btn btn-lg pull-xs-right btn-outline-secondary"
+          style={{ marginRight: "0.5rem" }}
+          type="button"
+          disabled={!title || !description || !body}
+          onClick={saveDraft}
+        >
+          Save Draft
         </button>
       </fieldset>
     </form>
