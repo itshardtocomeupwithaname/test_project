@@ -16,6 +16,14 @@ module.exports = (sequelize, DataTypes) => {
       // Comments
       this.hasMany(Comment, { foreignKey: "articleId" });
 
+      // Comment Likes
+      this.belongsToMany(Comment, {
+        through: "CommentLikes",
+        as: "likedComments",
+        foreignKey: "userId",
+        timestamps: false,
+      });
+
       // Favorites
       this.belongsToMany(Article, {
         through: "Favorites",

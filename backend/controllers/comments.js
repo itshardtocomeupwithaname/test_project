@@ -4,7 +4,7 @@ const {
   FieldRequiredError,
   ForbiddenError,
 } = require("../helper/customErrors");
-const { appendFollowers } = require("../helper/helpers");
+const { appendFollowers, appendLikes } = require("../helper/helpers");
 const { Article, Comment, User } = require("../models");
 
 //? All Comments for Article
@@ -24,6 +24,7 @@ const allComments = async (req, res, next) => {
 
     for (const comment of comments) {
       await appendFollowers(loggedUser, comment);
+      await appendLikes(loggedUser, comment);
     }
 
     res.json({ comments });
@@ -54,6 +55,7 @@ const createComment = async (req, res, next) => {
     delete loggedUser.dataValues.token;
     comment.dataValues.author = loggedUser;
     await appendFollowers(loggedUser, loggedUser);
+    await appendLikes(loggedUser, comment);
 
     res.status(201).json({ comment });
   } catch (error) {
@@ -84,4 +86,34 @@ const deleteComment = async (req, res, next) => {
   }
 };
 
-module.exports = { allComments, createComment, deleteComment };
+//* Like/Unlike Comment
+const likeToggler = async (req, res, next) => {
+  try {
+    const { loggedUser } = req;
+    if (!loggedUser) throw new UnauthorizedError();
+
+    const { slug, commentId } = req.params;
+
+    const article = await Article.findOne({ where: { slug: slug } });
+    if (!article) throw new NotFoundError("Article");
+
+    const comment = await Comment.findByPk(commentId, {
+      include: [
+        { model: User, as: "author", attributes: { exclude: ["email"] } },
+      ],
+    });
+    if (!comment) throw new NotFoundError("Comment");
+
+    if (req.method === "POST") await comment.addUser(loggedUser);
+    if (req.method === "DELETE") await comment.removeUser(loggedUser);
+
+    await appendFollowers(loggedUser, comment);
+    await appendLikes(loggedUser, comment);
+
+    res.json({ comment });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { allComments, createComment, deleteComment, likeToggler };
