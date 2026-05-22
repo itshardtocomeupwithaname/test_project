@@ -21,6 +21,7 @@ function HomeArticles() {
       <ArticlesPreview
         articles={articles}
         loading={loading}
+        showReadCount
         updateArticles={setArticlesData}
       />
 

@@ -3,7 +3,14 @@ import ArticleMeta from "../ArticleMeta";
 import ArticleTags from "../ArticleTags";
 import FavButton from "../FavButton";
 
-function ArticlesPreview({ articles, loading, updateArticles }) {
+function getFakeReadCount(article, index) {
+  const seed = article.slug || article.title || `${index}`;
+  const hash = [...seed].reduce((total, char) => total + char.charCodeAt(0), 0);
+
+  return hash + 100;
+}
+
+function ArticlesPreview({ articles, loading, showReadCount = false, updateArticles }) {
   const handleFav = (article) => {
     const items = [...articles];
 
@@ -15,7 +22,9 @@ function ArticlesPreview({ articles, loading, updateArticles }) {
   };
 
   return articles?.length > 0 ? (
-    articles.map((article) => {
+    articles.map((article, index) => {
+      const readCount = getFakeReadCount(article, index);
+
       return (
         <div className="article-preview" key={article.slug}>
           <ArticleMeta author={article.author} createdAt={article.createdAt}>
@@ -35,6 +44,11 @@ function ArticlesPreview({ articles, loading, updateArticles }) {
             <h1>{article.title}</h1>
             <p>{article.description}</p>
             <span>Read more...</span>
+            {showReadCount && (
+              <span className="article-read-count" title="阅读量">
+                <i className="ion-eye"></i> {readCount}
+              </span>
+            )}
             <ArticleTags tagList={article.tagList} />
           </Link>
         </div>

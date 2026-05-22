@@ -1232,12 +1232,20 @@ footer .attribution {
   line-height: 1.3rem;
 }
 
-.article-preview .preview-link span {
+.article-preview .preview-link > span {
   max-width: 30%;
   font-size: 0.8rem;
   font-weight: 300;
   color: var(--text-light);
   vertical-align: middle;
+}
+
+.article-preview .preview-link .article-read-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 1rem;
+  max-width: none;
 }
 
 .article-preview .preview-link ul {
