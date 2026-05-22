@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       slug: DataTypes.STRING,
       title: DataTypes.STRING,
       description: DataTypes.TEXT,
+      coverImage: DataTypes.STRING,
       body: DataTypes.TEXT,
     },
     {
