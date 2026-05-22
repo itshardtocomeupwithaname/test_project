@@ -6,6 +6,7 @@ import ArticlesButtons from "../../components/ArticlesButtons";
 import ArticleTags from "../../components/ArticleTags";
 import BannerContainer from "../../components/BannerContainer";
 import { useAuth } from "../../context/AuthContext";
+import getArticleReadingStats from "../../helpers/articleReadingStats";
 import getArticle from "../../services/getArticle";
 
 function Article() {
@@ -15,6 +16,7 @@ function Article() {
   const { headers, isAuth } = useAuth();
   const navigate = useNavigate();
   const { slug } = useParams();
+  const { wordCount, readingMinutes } = getArticleReadingStats(body);
 
   useEffect(() => {
     if (state) return;
@@ -40,6 +42,9 @@ function Article() {
         <div className="row article-content">
           <div className="col-md-12">
             {body && <Markdown options={{ forceBlock: true }}>{body}</Markdown>}
+            <p className="text-muted">
+              本文共 {wordCount} 字，预计阅读 {readingMinutes} 分钟
+            </p>
             <ArticleTags tagList={tagList} />
           </div>
         </div>
