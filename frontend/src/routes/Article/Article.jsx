@@ -11,7 +11,7 @@ import getArticle from "../../services/getArticle";
 function Article() {
   const { state } = useLocation();
   const [article, setArticle] = useState(state || {});
-  const { title, body, tagList, createdAt, author } = article || {};
+  const { title, body, coverImage, tagList, createdAt, author } = article || {};
   const { headers, isAuth } = useAuth();
   const navigate = useNavigate();
   const { slug } = useParams();
@@ -39,6 +39,9 @@ function Article() {
       <div className="container page">
         <div className="row article-content">
           <div className="col-md-12">
+            {coverImage && (
+              <img className="article-cover" src={coverImage} alt={`${title} cover`} />
+            )}
             {body && <Markdown options={{ forceBlock: true }}>{body}</Markdown>}
             <ArticleTags tagList={tagList} />
           </div>

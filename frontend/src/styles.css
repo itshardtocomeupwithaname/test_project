@@ -1145,6 +1145,15 @@ footer .attribution {
   margin-bottom: 2rem;
 }
 
+.article-page .article-cover {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+}
+
 .banner h1 {
   margin-bottom: 0;
 }
@@ -1230,6 +1239,15 @@ footer .attribution {
   color: var(--text-muted);
   margin-bottom: 15px;
   line-height: 1.3rem;
+}
+
+.article-preview-cover {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .article-preview .preview-link > span {
